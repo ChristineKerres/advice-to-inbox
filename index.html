@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>advice to inbox</title>
+  </head>
+  <body>
+    <h1>
+      <span>~</span><span>E</span><span>v</span><span>e</span><span>r</span
+      ><span>y</span><span>o</span><span>n</span><span>e</span><span> </span
+      ><span>n</span><span>e</span><span>e</span><span>d</span><span>s</span
+      ><span> </span><span>a</span><span>n</span><span> </span><span>a</span
+      ><span>d</span><span>v</span><span>i</span><span>c</span><span>e</span
+      ><span> </span><span>s</span><span>o</span><span>m</span><span>e</span
+      ><span>t</span><span>i</span><span>m</span><span>e</span><span>s</span
+      ><span>~</span>
+    </h1>
+    <div class="container">
+      <button class="advice" id="decision-button" role="button">
+        advice to inbox
+      </button>
+    </div>
+    <div id="output">...</div>
+
+    <a
+      class="link"
+      href="https://docs.google.com/spreadsheets/d/1qD_0kC9UPh4yzxUbk2cEBJ3KGrZfSEjvDqXv_YJUsvc/edit#gid=0"
+      >add advice//email</a
+    >
+
+    <script>
+      document.getElementById("decision-button").onclick = function () {
+        let output = document.getElementById("output");
+
+        let names = [];
+        let names2 = [];
+        fetch(
+          "https://opensheet.elk.sh/1qD_0kC9UPh4yzxUbk2cEBJ3KGrZfSEjvDqXv_YJUsvc/1"
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            data.forEach((row) => {
+              console.log(row);
+
+              // Do something with each row here.
+              //text.textContent = row;
+              //output.appendChild(text);
+              for (let key in row) {
+                let text = document.createElement("p");
+
+                if (key == "Which advice would you like to share?") {
+                  names.push(row[key]);
+                }
+                if (key == "Leave your email for receiving advices") {
+                  names2.push(row[key]);
+                }
+              }
+            });
+
+            //text.textContent = key + " : " + row[key];
+            let randomName = names[Math.floor(Math.random() * names.length)];
+            let randomName2 = names2[Math.floor(Math.random() * names2.length)];
+            let randomName3 = "Sending you an advice";
+
+            //text.textContent = row[key];
+            let text = document.createElement("p");
+
+            var element = text.textContent;
+            element = randomName;
+            output.innerHTML = element;
+
+            function prepareEmail(to, subject, bodyText) {
+              var form = document.createElement("form");
+
+              //Set the form attributes
+              form.setAttribute("method", "post");
+              form.setAttribute("enctype", "text/plain");
+              form.setAttribute(
+                "action",
+                "mailto:" +
+                  escape(randomName2) +
+                  "?Subject=" +
+                  escape(randomName3) +
+                  "&Body=" +
+                  escape(randomName + "! Warm greetings")
+              );
+              form.setAttribute("style", "display:none");
+
+              //Append the form to the body
+              document.body.appendChild(form);
+
+              //Submit the form
+              form.submit();
+
+              //Clean up
+              document.body.removeChild(form);
+            }
+            output.addEventListener("click", prepareEmail());
+
+            /*function(){
+          output.style.color = "black";
+          /*output.href = "mailto:" + randomName2;
+          window.open(href="mailto:" + randomName2);
+
+         
+         /* var newButton = document.createElement('button');
+          var newText = document.createTextNode("send advice");
+            newButton.appendChild(newText);
+            output.appendChild(newButton);
+ 
+
+        };*/
+
+            /*var newLink = document.createElement("a");
+        var newText = document.createTextNode ("text.textContent");
+        newLink.appendChild(newText);
+        newLink.href = '#';*/
+          });
+      };
+    </script>
+  </body>
+  <link rel="stylesheet" href="script.js" />
+</html>
